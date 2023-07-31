@@ -189,25 +189,24 @@ public class Profile_Fragment extends Fragment {
                             User user = new User(model.get_id(), model.getUsername(), model.getFullname(), model.getDate(),
                                     model.getPhone(), edt_old_pass.getText().toString(), model.getImage(), model.getToken());
 
-                            updatePasswordUser(token, id, edt_new_pass.getText().toString().trim());
 
-//                            RetrofitClient.managerServices().checkOldPassword(user).
-//                                    enqueue(new Callback<ResMessage>() {
-//                                        @Override
-//                                        public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-//                                            if (response.code() == 200) {
-//                                                updatePassword(token, id, edt_new_pass.getText().toString().trim());
-//                                            } else {
-//                                                Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
-//                                                edt_old_pass.requestFocus();
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onFailure(Call<ResMessage> call, Throwable t) {
-//                                            System.out.println("func checkOldPassword response: " + t);
-//                                        }
-//                                    });
+                            RetrofitClient.managerServices().checkOldPassword(user).
+                                    enqueue(new Callback<ResMessage>() {
+                                        @Override
+                                        public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
+                                            if (response.code() == 200) {
+                                                updatePasswordUser(token, id, edt_new_pass.getText().toString().trim());
+                                            } else {
+                                                Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                                                edt_old_pass.requestFocus();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResMessage> call, Throwable t) {
+                                            System.out.println("func checkOldPassword response: " + t);
+                                        }
+                                    });
                         }
                     }
                 });
