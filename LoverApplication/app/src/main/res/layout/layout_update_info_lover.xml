@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Activity.DetailLoverActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCancelUpdate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Huỷ"
+            android:textColor="#DC1B1B"
+            android:textSize="15dp" />
+
+
+        <TextView
+            android:id="@+id/btnUpdateInfoLover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:text="Đồng ý"
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_avt_detail_upd"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/edt_name_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Họ tên"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_age_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Tuổi"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_height_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Chiều cao"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_weight_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Cân nặng"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_phone_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Số điện thoại"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_about_detail_upd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:minHeight="55dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Mô tả"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <Spinner
+                android:id="@+id/spinner_update_lover"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

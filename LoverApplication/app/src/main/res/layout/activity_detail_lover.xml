@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Activity.DetailLoverActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btnBack_to_ListLover"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Danh sách"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/btnOpenDialogUpdateInfoLover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:text="Sửa"
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_avt_detail"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/avatar_default" />
+
+    <TextView
+        android:id="@+id/tv_name_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Phạm Ngọc Cảnhhhhhh"
+        android:textSize="19dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_back_dark_blue_5dp"
+        android:orientation="vertical"
+        android:padding="7dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="3dp"
+            android:text="Di động"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_phone_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:maxLines="1"
+            android:text="099999999999"
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Chiều cao"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_height_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:text="1m7"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Cân nặng"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_weight_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:text="50kg"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Tuổi"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_age_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:text="20"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_back_dark_blue_5dp"
+        android:orientation="vertical"
+        android:padding="7dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="3dp"
+            android:text="Mô tả"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_about_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="it was perfect. everything right down to the last minute detail.it was perfect. everything right down to the last minute detail.it was perfect. everything right down to the last minute detail."
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_back_dark_blue_5dp"
+        android:orientation="vertical"
+        android:padding="7dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="3dp"
+            android:text="Kiểu người"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_type_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:maxLines="3"
+            android:text="Xinh gái, nhà giàu, học giỏi nhất lớp"
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+</LinearLayout>

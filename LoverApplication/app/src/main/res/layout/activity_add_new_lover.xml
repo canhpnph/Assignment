@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Activity.DetailLoverActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCancelAdd"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Huỷ"
+            android:textColor="#DC1B1B"
+            android:textSize="15dp" />
+
+
+        <TextView
+            android:id="@+id/btnAddNewModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:text="Thêm"
+            android:textColor="@color/primary"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_avt_add"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/border_picture"
+                    android:layout_marginTop="10dp" />
+
+                <ImageView
+                    android:id="@+id/ic_add_in_image"
+                    app:layout_anchor="@id/img_avt_add"
+                    app:layout_anchorGravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_add_24_black" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+            <EditText
+                android:id="@+id/edt_name_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Họ tên"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_age_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Tuổi"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_height_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Chiều cao"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_weight_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Cân nặng"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_phone_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Số điện thoại"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/edt_about_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:hint="Mô tả"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minHeight="55dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textSize="16dp" />
+
+            <Spinner
+                android:id="@+id/spinner_add"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/round_back_dark_blue"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

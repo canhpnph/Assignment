@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="55dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Fragment.ListLover_Fragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_avt_user"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xin chào, "
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_fullname_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnInfoProfile"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_back_primary"
+        android:text="Thông tin cá nhân"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_back_primary"
+        android:text="Đổi mật khẩu"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_back_primary"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</LinearLayout>

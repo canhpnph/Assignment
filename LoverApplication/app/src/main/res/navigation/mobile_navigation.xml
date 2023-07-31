@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_listLover">
+
+    <fragment
+        android:id="@+id/nav_listLover"
+        android:name="com.example.loverapplication.Fragment.ListLover_Fragment"
+        android:label="Danh sách người yêu"
+        tools:layout="@layout/fragment_list_lover" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.example.loverapplication.Fragment.ChatFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chatr" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.loverapplication.Fragment.Profile_Fragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>
