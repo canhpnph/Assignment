@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -55,14 +56,16 @@ public class DetailLoverActivity extends AppCompatActivity {
     LinearLayout btnBack;
     ImageView img_avatar, img_avatar_ud;
     EditText edt_name, edt_age, edt_height, edt_weight, edt_about, edt_phone;
+    SwipeRefreshLayout refresh;
     String API_image = "http://192.168.1.4:3000/uploads/";
     private static final int REQUEST_CALL_PHONE = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PERMISSON_CODE = 11;
 
     String imagePath = null;
-    Lover model = new Lover();
+    Lover model;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +78,11 @@ public class DetailLoverActivity extends AppCompatActivity {
         tv_height = findViewById(R.id.tv_height_detail);
         tv_about = findViewById(R.id.tv_about_detail);
         tv_type = findViewById(R.id.tv_type_detail);
+        refresh = findViewById(R.id.refresh_detailLover);
         btnBack = findViewById(R.id.btnBack_to_ListLover);
         btnOpenDialogUpdate = findViewById(R.id.btnOpenDialogUpdateInfoLover);
         img_avatar = findViewById(R.id.img_avt_detail);
 
-
-        Intent intent = getIntent();
-        model = intent.getParcelableExtra("model");
 
         reloadDataAfterUpdateModel();
 
@@ -103,6 +104,14 @@ public class DetailLoverActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDialogUpdate(model);
+            }
+        });
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadDataAfterUpdateModel();
+                refresh.setRefreshing(false);
             }
         });
 
@@ -157,41 +166,7 @@ public class DetailLoverActivity extends AppCompatActivity {
         btnCancel = dialog.findViewById(R.id.btnCancelUpdate);
         spinner = dialog.findViewById(R.id.spinner_update_lover);
 
-
-        Glide.with(getBaseContext())
-                .load(API_image + model.getImage())
-                .into(img_avatar_ud);
-        edt_name.setText(model.getName());
-        edt_age.setText(model.getAge());
-        edt_about.setText(model.getAbout());
-        edt_height.setText(model.getHeight());
-        edt_weight.setText(model.getWeight());
-        edt_phone.setText(model.getPhone());
-
-        RetrofitClient.managerServices().getListLoverType().enqueue(new Callback<List<LoverType>>() {
-            @Override
-            public void onResponse(Call<List<LoverType>> call, Response<List<LoverType>> response) {
-                if (response.isSuccessful()) {
-                    List<LoverType> listLoverType = response.body();
-
-                    Adapter_Spinner adapter = new Adapter_Spinner(getBaseContext(), listLoverType);
-                    spinner.setAdapter(adapter);
-
-                    for (int i = 0; i < listLoverType.size(); i++) {
-                        LoverType type = listLoverType.get(i);
-                        if (type.get_id().equals(model.getType().get_id())) {
-                            spinner.setSelection(i);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<LoverType>> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
+        reloadDataInDialog(spinner);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +187,7 @@ public class DetailLoverActivity extends AppCompatActivity {
                 LoverType type = (LoverType) spinner.getSelectedItem();
                 updateModel(model.get_id(), name, phone, age, weight, height, about, type, dialog);
                 reloadDataAfterUpdateModel();
+                reloadDataInDialog(spinner);
             }
         });
 
@@ -410,8 +386,7 @@ public class DetailLoverActivity extends AppCompatActivity {
             public void onResponse(Call<List<Lover>> call, Response<List<Lover>> response) {
                 if (response.isSuccessful()) {
                     List<Lover> list = response.body();
-                    Lover model = new Lover();
-                    model = list.get(0);
+                    Lover model = list.get(0);
 
                     Glide.with(getBaseContext())
                             .load(API_image + model.getImage())
@@ -437,5 +412,61 @@ public class DetailLoverActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         reloadDataAfterUpdateModel();
+    }
+
+    private void reloadDataInDialog(Spinner spinner) {
+        Intent intent = getIntent();
+        model = new Lover();
+        model = intent.getParcelableExtra("model");
+
+        RetrofitClient.managerServices().getListLover(model.get_id()).enqueue(new Callback<List<Lover>>() {
+            @Override
+            public void onResponse(Call<List<Lover>> call, Response<List<Lover>> response) {
+                if (response.isSuccessful()) {
+                    List<Lover> list = response.body();
+                    Lover model = list.get(0);
+
+                    Glide.with(getBaseContext())
+                            .load(API_image + model.getImage())
+                            .into(img_avatar_ud);
+                    edt_name.setText(model.getName());
+                    edt_age.setText(model.getAge());
+                    edt_about.setText(model.getAbout());
+                    edt_height.setText(model.getHeight());
+                    edt_weight.setText(model.getWeight());
+                    edt_phone.setText(model.getPhone());
+
+                    RetrofitClient.managerServices().getListLoverType().enqueue(new Callback<List<LoverType>>() {
+                        @Override
+                        public void onResponse(Call<List<LoverType>> call, Response<List<LoverType>> response) {
+                            if (response.isSuccessful()) {
+                                List<LoverType> listLoverType = response.body();
+
+                                Adapter_Spinner adapter = new Adapter_Spinner(getBaseContext(), listLoverType);
+                                spinner.setAdapter(adapter);
+
+                                for (int i = 0; i < listLoverType.size(); i++) {
+                                    LoverType type = listLoverType.get(i);
+                                    if (type.get_id().equals(model.getType().get_id())) {
+                                        spinner.setSelection(i);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<LoverType>> call, Throwable t) {
+                            System.out.println(t);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Lover>> call, Throwable t) {
+            }
+        });
+
     }
 }

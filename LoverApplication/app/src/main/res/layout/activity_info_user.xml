@@ -1,149 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="10dp"
+    android:id="@+id/refresh_detail_User"
     tools:context=".Activity.DetailLoverActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/btnBack_to_User"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_back" />
+            <LinearLayout
+                android:id="@+id/btnBack_to_User"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Bản thân"
+                    android:textColor="@color/primary"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/btnOpenDialogUpdateInfoUser"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Bản thân"
+                android:layout_marginEnd="10dp"
+                android:gravity="right"
+                android:text="Cập nhật thông tin"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avt_user_detail"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/avatar_default" />
+
+        <TextView
+            android:id="@+id/tv_fullname_user_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Phạm Ngọc Cảnhhhhhh"
+            android:textSize="19dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Tên đăng nhập"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_username_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:text="canhpn"
                 android:textColor="@color/primary"
                 android:textSize="15dp" />
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/btnOpenDialogUpdateInfoUser"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="right"
-            android:text="Cập nhật thông tin"
-            android:textColor="@color/primary"
-            android:textSize="15dp" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Số điện thoại"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_phone_user_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:text="099999999999"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_back_dark_blue_5dp"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:text="Ngày sinh"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_date_user_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:maxLines="3"
+                android:text="12/12/2003"
+                android:textColor="@color/primary"
+                android:textSize="15dp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_avt_user_detail"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/avatar_default" />
-
-    <TextView
-        android:id="@+id/tv_fullname_user_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="Phạm Ngọc Cảnhhhhhh"
-        android:textSize="19dp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_back_dark_blue_5dp"
-        android:orientation="vertical"
-        android:padding="7dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:paddingBottom="3dp"
-            android:text="Tên đăng nhập"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/tv_username_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:maxLines="1"
-            android:text="canhpn"
-            android:textColor="@color/primary"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_back_dark_blue_5dp"
-        android:orientation="vertical"
-        android:padding="7dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:paddingBottom="3dp"
-            android:text="Số điện thoại"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/tv_phone_user_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:maxLines="1"
-            android:text="099999999999"
-            android:textColor="@color/primary"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_back_dark_blue_5dp"
-        android:orientation="vertical"
-        android:padding="7dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:paddingBottom="3dp"
-            android:text="Ngày sinh"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/tv_date_user_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:maxLines="3"
-            android:text="12/12/2003"
-            android:textColor="@color/primary"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

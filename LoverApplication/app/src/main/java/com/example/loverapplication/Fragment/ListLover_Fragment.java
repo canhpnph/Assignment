@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -47,6 +48,7 @@ public class ListLover_Fragment extends Fragment {
     RecyclerView recyclerView;
     Adapter_RecyclerView adapter;
     TextView tv_no_result;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +62,7 @@ public class ListLover_Fragment extends Fragment {
         btnAdd = view.findViewById(R.id.btnAdd);
         recyclerView = view.findViewById(R.id.recyclerView);
         tv_no_result = view.findViewById(R.id.tv_no_result);
+        refreshLayout = view.findViewById(R.id.refresh_data_listlover);
 
         updateData();
 
@@ -68,6 +71,14 @@ public class ListLover_Fragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddNewLoverActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateData();
+                refreshLayout.setRefreshing(false);
             }
         });
     }

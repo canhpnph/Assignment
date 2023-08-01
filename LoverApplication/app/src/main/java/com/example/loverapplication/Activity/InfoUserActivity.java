@@ -3,6 +3,7 @@ package com.example.loverapplication.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -55,6 +56,7 @@ public class InfoUserActivity extends AppCompatActivity {
     TextView tv_fullname, tv_phone, tv_date, tv_username;
     CircleImageView img_avatar, img_avatar_update;
     EditText edt_fullname, edt_date, edt_username, edt_phone;
+    SwipeRefreshLayout refreshLayout;
     User model;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PERMISSON_CODE = 11;
@@ -74,29 +76,9 @@ public class InfoUserActivity extends AppCompatActivity {
         tv_phone = findViewById(R.id.tv_phone_user_detail);
         tv_username = findViewById(R.id.tv_username_detail);
         img_avatar = findViewById(R.id.img_avt_user_detail);
+        refreshLayout = findViewById(R.id.refresh_detail_User);
 
-        SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
-        String token = preferences.getString("token", "");
-
-        RetrofitClient.managerServices().profile(token).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    model = response.body();
-                    tv_fullname.setText(model.getFullname());
-                    tv_username.setText(model.getUsername());
-                    tv_phone.setText(model.getPhone());
-                    tv_date.setText(model.getDate());
-
-                    Glide.with(getBaseContext()).load(API_image + model.getImage()).into(img_avatar);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
+        reloadDataInActivity();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,20 +105,14 @@ public class InfoUserActivity extends AppCompatActivity {
                 img_avatar_update = dialog.findViewById(R.id.img_avt_detail_upd_user);
                 ImageView img_date = dialog.findViewById(R.id.icon_date_user);
 
-                edt_fullname.setText(model.getFullname());
-                edt_date.setText(model.getDate());
-                edt_phone.setText(model.getPhone());
-                edt_username.setText(model.getUsername());
-                edt_phone.setEnabled(false);
-                edt_username.setEnabled(false);
-
-                Glide.with(getBaseContext()).load(API_image + model.getImage()).into(img_avatar_update);
+                reloadDataInDialog();
 
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         updateUser(model.getToken(), model.get_id(), edt_fullname.getText().toString(), edt_date.getText().toString());
-                        reloadData();
+                        reloadDataInActivity();
+                        reloadDataInDialog();
                         dialog.dismiss();
                     }
                 });
@@ -168,6 +144,13 @@ public class InfoUserActivity extends AppCompatActivity {
             }
         });
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadDataInActivity();
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void updateUser(String token, String id, String fullname, String date) {
@@ -281,7 +264,7 @@ public class InfoUserActivity extends AppCompatActivity {
         }
     }
 
-    private void reloadData() {
+    private void reloadDataInActivity() {
         SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
         String token = preferences.getString("token", "");
 
@@ -306,12 +289,39 @@ public class InfoUserActivity extends AppCompatActivity {
         });
     }
 
+    private void reloadDataInDialog() {
+        SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+
+        RetrofitClient.managerServices().profile(token).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    model = response.body();
+                    edt_fullname.setText(model.getFullname());
+                    edt_date.setText(model.getDate());
+                    edt_phone.setText(model.getPhone());
+                    edt_username.setText(model.getUsername());
+                    edt_phone.setEnabled(false);
+                    edt_username.setEnabled(false);
+
+                    Glide.with(getBaseContext()).load(API_image + model.getImage()).into(img_avatar_update);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+    }
+
 
     public void selectDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        DatePickerDialog dialog = new DatePickerDialog( this,
+        DatePickerDialog dialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
