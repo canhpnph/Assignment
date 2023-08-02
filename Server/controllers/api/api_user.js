@@ -1,6 +1,13 @@
 const model = require('../../models/user.model');
 var fs = require('fs');
 const bcrypt = require("bcrypt");
+const admin = require('firebase-admin');
+
+var serviceAccount = require("../../../Server/lovermanagerapplication-firebase-adminsdk-wx7uv-8c2b3ddafb.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
 exports.list_user = async (req, res, next) => {
     let check = null;
@@ -57,20 +64,72 @@ exports.registerUser = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, tokenFCM } = req.body;
         const user = await model.userModel.findByCredentials(username, password);
         if (!user) {
             return res.status(401).send({ error: 'Đăng nhập thất bại!' })
-        }
-        const token = await user.generateAuthToken()
-        req.session.userLogin = user
-        res.status(200).json(user);
+        } else {
+            await user.generateAuthToken();
+            req.session.userLogin = user;
+            user.tokenFCM = tokenFCM;
+            await user.save();
 
+            res.status(200).json(user);
+        }
     } catch (error) {
         res.status(400).json({ message: "Đăng nhập không thành công. Username hoặc password sai!" })
     }
 
 };
+
+exports.login_success = async (req, res, next) => {
+    const { _id, username, tokenFCM } = req.body;
+
+    const notificationTitle = "Thông báo!";
+    const notificationBody = "User " + username + " mới online";
+
+    // lấy ds users
+    const users = await getAllUsersExceptUserLogin(_id);
+
+    // Gửi thông báo
+    for (const user of users) {
+        if (user.tokenFCM !== tokenFCM && user.tokenFCM !== null) {
+            sendNotificationToUser(user.tokenFCM, notificationTitle, notificationBody);
+        }
+    }
+
+    return res.status(200).json({ message: "Thông báo đã được gửi tới tất cả người dùng" })
+}
+
+
+async function getAllUsersExceptUserLogin(userID) {
+    try {
+        // danh sách users trừ user đang login
+        const users = await model.userModel.find({ _id: { $ne: userID } });
+        return users;
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách người dùng:', error);
+        throw error;
+    }
+}
+
+async function sendNotificationToUser(tokenFCM, title, body) {
+    const message = {
+        notification: {
+            title: title,
+            body: body,
+        },
+        token: tokenFCM,
+    };
+
+    try {
+        // Gửi thông báo
+        await admin.messaging().send(message);
+        console.log('Thông báo đã được gửi đến token:', tokenFCM);
+    } catch (error) {
+        console.error('Gửi thông báo thất bại:', error);
+    }
+}
 
 exports.updateInfoUser = async (req, res, next) => {
     let id_user = req.params.id;
@@ -82,7 +141,7 @@ exports.updateInfoUser = async (req, res, next) => {
             let obj = new model.userModel();
             obj._id = id_user;
             obj.fullname = req.body.fullname;
-            obj.date =  req.body.date;
+            obj.date = req.body.date;
             obj.image = req.file.originalname;
 
             try {
@@ -91,13 +150,12 @@ exports.updateInfoUser = async (req, res, next) => {
 
             } catch (error) {
                 res.status(500).send({ message: error.message });
-                console.log(error);
             }
         } else {
             let obj = new model.userModel();
             obj._id = id_user;
             obj.fullname = req.body.fullname;
-            obj.date =  req.body.date;
+            obj.date = req.body.date;
 
             try {
                 await model.userModel.findByIdAndUpdate(id_user, obj);
@@ -105,40 +163,35 @@ exports.updateInfoUser = async (req, res, next) => {
 
             } catch (error) {
                 res.status(500).send({ message: error.message });
-                console.log(error);
             }
         }
 
     }
 }
 
-exports.checkOldPassword = async (req, res, next) => {
-    const { _id, password } = req.body;
-    const user = await model.userModel.findOne({ _id });
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-    if (isPasswordMatch) {
-        return res.status(200).json({message: "Mật khẩu cũ khớp"});
-    } else {
-        return res.json({message: "Mật khẩu cũ không khớp"});
-    }
-}
 
 exports.updatePasswordUser = async (req, res, next) => {
-    let id_user = req.params.id;
+    let _id = req.params.id;
+
+    const user = await model.userModel.findOne({ _id });
+    const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
 
     if (req.method == 'PUT') {
-        let obj = new model.userModel();
-        obj._id = id_user;
-        const salt = await bcrypt.genSalt(10);
-        obj.password = await bcrypt.hash(req.body.password, salt);
+        if (isPasswordMatch) {
+            let obj = new model.userModel();
+            obj._id = _id;
+            const salt = await bcrypt.genSalt(10);
+            obj.password = await bcrypt.hash(req.body.new_password, salt);
 
-        try {
-            await model.userModel.findByIdAndUpdate(id_user, obj);
-            return res.status(200).json(obj);
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send({ message: error.message });
+            try {
+                await model.userModel.findByIdAndUpdate(_id, obj);
+                return res.status(200).json(obj);
+            } catch (error) {
+                console.log(error);
+                return res.status(500).send({ message: error.message });
+            }
+        } else {
+            return res.status(303).json({ message: "Mật khẩu không khớp" });
         }
     }
 }
@@ -146,6 +199,7 @@ exports.updatePasswordUser = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
     try {
         req.user.token = null; //xóa token
+        req.user.tokenFCM = null;
         await req.user.save()
         return res.status(200).json({ msg: 'Đăng xuất thành công' });
     } catch (error) {
@@ -162,6 +216,7 @@ exports.profile = async (req, res, next) => {
     }
 
 }
+
 
 function randomString(length) {
     let result = '';

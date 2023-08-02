@@ -183,30 +183,11 @@ public class Profile_Fragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         if (check()) {
-
-                            String token = model.getToken();
                             String id = model.get_id();
-                            User user = new User(model.get_id(), model.getUsername(), model.getFullname(), model.getDate(),
-                                    model.getPhone(), edt_old_pass.getText().toString(), model.getImage(), model.getToken());
-
-
-                            RetrofitClient.managerServices().checkOldPassword(user).
-                                    enqueue(new Callback<ResMessage>() {
-                                        @Override
-                                        public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
-                                            if (response.code() == 200) {
-                                                updatePasswordUser(token, id, edt_new_pass.getText().toString().trim());
-                                            } else {
-                                                Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
-                                                edt_old_pass.requestFocus();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ResMessage> call, Throwable t) {
-                                            System.out.println("func checkOldPassword response: " + t);
-                                        }
-                                    });
+                            String old_pass = edt_old_pass.getText().toString().trim();
+                            String new_pass = edt_new_pass.getText().toString().trim();
+                            User user = new User(old_pass, new_pass);
+                            updatePasswordUser(token, id, user);
                         }
                     }
                 });
@@ -354,9 +335,9 @@ public class Profile_Fragment extends Fragment {
         return true;
     }
 
-    private void updatePasswordUser(String token, String id, String password) {
-        MultipartBody.Part namePart = MultipartBody.Part.createFormData("password", password);
-        RetrofitClient.servicesNoCookie().updatePassword(token, "application/json", id, namePart).enqueue(new Callback<ResMessage>() {
+    private void updatePasswordUser(String token, String id, User user) {
+
+        RetrofitClient.servicesNoCookie().updatePassword(token, id, user).enqueue(new Callback<ResMessage>() {
             @Override
             public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                 if (response.code() == 200) {
@@ -364,6 +345,16 @@ public class Profile_Fragment extends Fragment {
                     edt_old_pass.setText("");
                     edt_new_pass.setText("");
                     edt_renew_pass.setText("");
+
+                    SharedPreferences preferences = getActivity().getSharedPreferences("user-login", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("is_login", false);
+                    editor.commit();
+
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                } else if (response.code() == 303) {
+                    Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                    edt_old_pass.requestFocus();
                 } else {
                     ResMessage resMessage = response.body();
                     System.out.println(resMessage);

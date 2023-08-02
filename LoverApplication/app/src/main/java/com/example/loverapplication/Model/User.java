@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-    String _id, username, fullname, date, phone, password, image, token;
+    String _id, username, fullname, date, phone, password, image, token, tokenFCM, new_password;
 
     protected User(Parcel in) {
         _id = in.readString();
@@ -15,6 +15,7 @@ public class User implements Parcelable {
         password = in.readString();
         image = in.readString();
         token = in.readString();
+        tokenFCM = in.readString();
     }
 
     @Override
@@ -27,6 +28,7 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(image);
         dest.writeString(token);
+        dest.writeString(tokenFCM);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class User implements Parcelable {
         }
     };
 
-    public User(String _id, String username, String fullname, String date, String phone, String password, String image, String token) {
+    public User(String _id, String username, String fullname, String date, String phone, String password, String image, String token, String tokenFCM) {
         this._id = _id;
         this.username = username;
         this.fullname = fullname;
@@ -55,6 +57,7 @@ public class User implements Parcelable {
         this.password = password;
         this.image = image;
         this.token = token;
+        this.tokenFCM = tokenFCM;
     }
 
     public User() {
@@ -76,10 +79,18 @@ public class User implements Parcelable {
         this.image = image;
     }
 
-    public User(String username, String password) {
+    public User( String username, String password, String tokenFCM) {
         this.username = username;
         this.password = password;
+        this.tokenFCM = tokenFCM;
     }
+
+    public User(String password, String new_password) {
+        this.password = password;
+        this.new_password = new_password;
+    }
+
+
 
     public String get_id() {
         return _id;
@@ -143,5 +154,13 @@ public class User implements Parcelable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getTokenFCM() {
+        return tokenFCM;
+    }
+
+    public void setTokenFCM(String tokenFCM) {
+        this.tokenFCM = tokenFCM;
     }
 }

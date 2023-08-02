@@ -1,9 +1,12 @@
 package com.example.loverapplication.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,10 +23,18 @@ import com.example.loverapplication.R;
 import com.example.loverapplication.Retrofit.CookieManager;
 import com.example.loverapplication.Retrofit.MyAppContext;
 import com.example.loverapplication.Retrofit.RetrofitClient;
+import com.example.loverapplication.Socket.SocketManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.socket.emitter.Emitter;
 import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     ImageView img_showPass;
     CheckBox checkBox;
     private boolean passwordShowing = false;
+    String tokenFCM = null;
+    SocketManager socket = SocketManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +63,19 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister_login);
         img_showPass = findViewById(R.id.icon_showPassword_login);
         checkBox = findViewById(R.id.checkbox_saveInfo_login);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            tokenFCM = task.getResult();
+                            System.out.println("TokenFCM: " + tokenFCM);
+                        } else {
+                            System.out.println("Lỗi lấy token FCM: " + task.getException());
+                        }
+                    }
+                });
 
         SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
         String username_login = preferences.getString("username", "");
@@ -72,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkValidate()) {
-                    func_login(edt_username.getText().toString().trim(), edt_password.getText().toString().trim());
+                    func_login(edt_username.getText().toString().trim(), edt_password.getText().toString().trim(), tokenFCM);
                 }
             }
         });
@@ -144,8 +170,8 @@ public class LoginActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private void func_login(String username, String password) {
-        RetrofitClient.servicesNoCookie().login(new User(username, password)).enqueue(new Callback<User>() {
+    private void func_login(String username, String password, String tokenFireBase) {
+        RetrofitClient.servicesNoCookie().login(new User(username, password, tokenFireBase)).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
@@ -156,13 +182,41 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("is_login", true);
+                    editor.putString("id", user.get_id());
+                    editor.putString("username", username);
                     editor.putString("token", user.getToken());
+                    editor.putString("tokenFCM", tokenFireBase);
 
                     CookieManager cookieManager = new CookieManager(getBaseContext());
                     cookieManager.saveCookie(cookies);
 
+                    socket.connect();
+                    socket.getmSocket();
+
+
+                    // Gửi thông tin đăng nhập thành công lên server
+                    try {
+                        socket.emit("loginSuccess", new JSONObject()
+                                .put("_id", user.get_id())
+                                .put("tokenFCM", tokenFireBase));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    socket.on("logout", new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    requestLoginAgain();
+                                }
+                            });
+                        }
+                    });
+
+
                     if (checkBox.isChecked()) {
-                        editor.putString("id", user.get_id());
                         editor.putString("username", username);
                         editor.putString("password", password);
                         editor.putBoolean("checkbox", true);
@@ -188,4 +242,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void requestLoginAgain() {
+        Toast.makeText(this, "Tài khoản của bạn vừa đăng nhập ở thiết bị mới", Toast.LENGTH_SHORT).show();
+        SharedPreferences preferences = getSharedPreferences("user-login", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("is_login", false);
+        editor.commit();
+
+
+        startActivity(new Intent( this, LoginActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        socket.disconnect();
+    }
 }

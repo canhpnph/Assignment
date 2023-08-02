@@ -11,7 +11,8 @@ const userSchema = new db.mongoose.Schema ({
     phone: {type: String, required: true},
     password: {type: String, required: true},
     image: {type: String, required: false},
-    token: {type: String, required: false}
+    token: {type: String, required: false},
+    tokenFCM: {type: String, required: false}
 }, {collection: 'tb_user'}
 );
 

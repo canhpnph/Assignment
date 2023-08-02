@@ -33,7 +33,7 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.login);
 router.post('/check-username', userController.checkUsername);
 
-router.post('/check-old-password', check_login.check_login, userController.checkOldPassword);
+router.post('/login-success', check_login.check_login, userController.login_success);
 
 router.get('/profile', middleware.api_auth, userController.profile);
 router.put('/update-info-:id', middleware.api_auth, uploader.single('image'), userController.updateInfoUser);

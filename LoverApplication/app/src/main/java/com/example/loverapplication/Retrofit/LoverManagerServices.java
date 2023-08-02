@@ -113,17 +113,16 @@ public interface LoverManagerServices {
             @Part MultipartBody.Part image
     );
 
-    @POST("check-old-password")
-    Call<ResMessage> checkOldPassword(
-            @Body User user
-    );
-
-    @Multipart
     @PUT("update-password-{id}")
     Call<ResMessage> updatePassword(
             @Header("Authorization") String token,
-            @Header("Content-Type") String contentType,
             @Path("id") String id,
-            @Part MultipartBody.Part password
+            @Body User user
     );
+
+    @POST("login-success")
+    Call<ResMessage> login_success(
+            @Body User user
+    );
+
 }

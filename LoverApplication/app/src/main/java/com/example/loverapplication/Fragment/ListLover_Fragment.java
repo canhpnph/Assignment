@@ -35,7 +35,10 @@ import com.example.loverapplication.Model.Lover;
 import com.example.loverapplication.Model.User;
 import com.example.loverapplication.R;
 import com.example.loverapplication.Retrofit.RetrofitClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class ListLover_Fragment extends Fragment {
     Adapter_RecyclerView adapter;
     TextView tv_no_result;
     SwipeRefreshLayout refreshLayout;
+    String tokenFCM = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +85,18 @@ public class ListLover_Fragment extends Fragment {
                 refreshLayout.setRefreshing(false);
             }
         });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            tokenFCM = task.getResult();
+                        } else {
+                            System.out.println("Lỗi lấy token FCM: " + task.getException());
+                        }
+                    }
+                });
     }
 
     private void updateData() {
@@ -111,25 +127,4 @@ public class ListLover_Fragment extends Fragment {
         updateData();
     }
 
-    private void requestLoginAgain() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Thông báo");
-        builder.setMessage("Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục sử dụng ứng dụng");
-
-        builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPreferences preferences = getActivity().getSharedPreferences("user-login", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("is_login", false);
-                editor.commit();
-
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.show();
-    }
 }
