@@ -32,7 +32,7 @@ This is a simple app that I created during my studies. This file of mine contain
          exclude group: 'org.json', module: 'json'
        }`
 
-   In addition to "chat", I also use Socket.io to check the login status of a user. That means each user is only allowed to log in on a single mobile device
+   In addition to `Chat`, I also use `Socket.io` to check the login status of a user. That means each user is only allowed to log in on a single mobile device
    
   + In order to get notified when the server arrives, I also read the Firebase docs. If you don't understand them, you can find them in the `LoginActivity.java` file and the `FireBaseCloudMessageService.java` file.
 
