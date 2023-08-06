@@ -50,7 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InfoUserActivity extends AppCompatActivity {
-    String API_image = "http://192.168.1.4:3000/uploads/";
+    String API_image = "http://192.168.1.5:3000/uploads/";
     LinearLayout btnBack;
     TextView btnShowDialogUpdateInfoUser;
     TextView tv_fullname, tv_phone, tv_date, tv_username;

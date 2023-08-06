@@ -49,7 +49,7 @@ import retrofit2.Retrofit;
 
 public class Profile_Fragment extends Fragment {
 
-    String API_image = "http://192.168.1.4:3000/uploads/";
+    String API_image = "http://192.168.1.5:3000/uploads/";
 
     EditText edt_old_pass, edt_new_pass, edt_renew_pass;
     ImageView img_showpass_old, img_showpass_new, img_showpass_renew;

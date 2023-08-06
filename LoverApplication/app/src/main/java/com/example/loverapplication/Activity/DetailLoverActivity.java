@@ -57,7 +57,7 @@ public class DetailLoverActivity extends AppCompatActivity {
     ImageView img_avatar, img_avatar_ud;
     EditText edt_name, edt_age, edt_height, edt_weight, edt_about, edt_phone;
     SwipeRefreshLayout refresh;
-    String API_image = "http://192.168.1.4:3000/uploads/";
+    String API_image = "http://192.168.1.5:3000/uploads/";
     private static final int REQUEST_CALL_PHONE = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PERMISSON_CODE = 11;

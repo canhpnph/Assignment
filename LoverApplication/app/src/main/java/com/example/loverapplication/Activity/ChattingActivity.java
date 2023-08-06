@@ -61,7 +61,7 @@ public class ChattingActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.1.4:3001");
+            mSocket = IO.socket("http://192.168.1.5:3001");
         } catch (URISyntaxException e) {}
     }
 

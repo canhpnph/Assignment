@@ -21,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends ArrayAdapter<MessageModel> {
 
-    String API_image = "http://192.168.1.4:3000/uploads/";
+    String API_image = "http://192.168.1.5:3000/uploads/";
 
     public MessageAdapter(Context context, int resource, List<MessageModel> list) {
         super(context, resource, list);

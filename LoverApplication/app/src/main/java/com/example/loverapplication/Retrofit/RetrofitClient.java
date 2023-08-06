@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String URL = "http://192.168.1.4:3000/api/";
+    private static final String URL = "http://192.168.1.5:3000/api/";
 
     // add cookie
     public static LoverManagerServices managerServices() {

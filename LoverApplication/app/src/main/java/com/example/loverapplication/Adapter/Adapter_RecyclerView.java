@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class Adapter_RecyclerView extends RecyclerView.Adapter<Adapter_RecyclerView.ViewHolder> {
     Context context;
     List<Lover> list ;
-    String API_image = "http://192.168.1.4:3000/uploads/";
+    String API_image = "http://192.168.1.5:3000/uploads/";
 
     public Adapter_RecyclerView(Context context, List<Lover> list) {
         this.context = context;
